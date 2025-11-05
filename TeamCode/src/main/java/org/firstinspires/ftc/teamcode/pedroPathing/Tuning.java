@@ -177,11 +177,13 @@ class LocalizationTest extends OpMode {
  * @version 1.0, 5/6/2024
  */
 class ForwardTuner extends OpMode {
+
     public static double DISTANCE = 48;
 
     @Override
     public void init() {
         follower.update();
+        follower.setPose(new Pose(0, 0, 0));
         drawCurrent();
     }
 
@@ -330,6 +332,7 @@ class ForwardVelocityTuner extends OpMode {
     @Override
     public void init() {}
 
+
     /** This initializes the drive motors as well as the cache of velocities and the Panels telemetry. */
     @Override
     public void init_loop() {
@@ -339,6 +342,8 @@ class ForwardVelocityTuner extends OpMode {
         telemetryM.debug("Press B on game pad 1 to stop.");
         telemetryM.debug("pose", follower.getPose());
         telemetryM.update(telemetry);
+
+        follower.setPose(new Pose(0, 0, 0));
 
         follower.update();
         drawCurrent();
