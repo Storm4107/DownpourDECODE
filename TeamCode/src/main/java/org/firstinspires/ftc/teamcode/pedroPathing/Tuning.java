@@ -330,7 +330,10 @@ class ForwardVelocityTuner extends OpMode {
     private boolean end;
 
     @Override
-    public void init() {}
+    public void init() {
+
+        follower.setPose(new Pose(0,0,0));
+    }
 
 
     /** This initializes the drive motors as well as the cache of velocities and the Panels telemetry. */
@@ -352,6 +355,7 @@ class ForwardVelocityTuner extends OpMode {
     /** This starts the OpMode by setting the drive motors to run forward at full power. */
     @Override
     public void start() {
+
         for (int i = 0; i < RECORD_NUMBER; i++) {
             velocities.add(0.0);
         }
