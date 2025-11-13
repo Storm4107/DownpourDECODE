@@ -10,62 +10,117 @@ import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.teamcode.pedroPathing.Subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.pedroPathing.Subsystems.ShooterSubsystem;
+
 @Autonomous(name = "TestAuto")
 public class TestAuto extends OpMode {
 
     private Follower follower;
-    private Timer pathTimer, actionTimer, opmodeTimer;
+    private Timer pathTimer, opmodeTimer;
     private int pathState;
     private final Pose startPose = new Pose(116.3, 131.8, Math.toRadians(36));
-    private final Pose firstScore = new Pose(97, 96, Math.toRadians(47));
-    private final Pose pickupPrepare = new Pose(97,83.4, Math.toRadians(0));
-    private final Pose firstPickup = new Pose(120, 83.4, Math.toRadians(0));
-    private Path ScorePreload, scorePickup1, Pickup2, scorePickup2;
-    private PathChain Pickup1;
+
+    private ShooterSubsystem Shooter;
+
+    public static Paths PathChain;
 
 
     public void setPathState(int pState) {
         pathState = pState;
         pathTimer.resetTimer();
     }
-    public void buildPaths() {
 
-        ScorePreload = new Path(new BezierLine(startPose, firstScore));
-        ScorePreload.setLinearHeadingInterpolation(startPose.getHeading(), firstScore.getHeading());
+    public static class Paths {
 
+        public PathChain Path1;
+        public PathChain Path2;
+        public PathChain Path3;
 
-        Pickup1 = follower.pathBuilder()
-                .addPath(new BezierCurve(firstScore, pickupPrepare,firstPickup))
-                .setLinearHeadingInterpolation(firstPickup.getHeading(), pickupPrepare.getHeading(), firstPickup.getHeading())
-                .build();
-    }
+        public Paths(Follower follower) {
+            Path1 = follower
+                    .pathBuilder()
+                    .addPath(
+                            new BezierLine(new Pose(116.300, 131.800), new Pose(96.300, 95.900))
+                    )
+                    .setLinearHeadingInterpolation(Math.toRadians(36), Math.toRadians(47))
+                    .build();
 
-    public void autonomousPathUpdate() {
-        switch (pathState) {
-            case 0:
-                follower.followPath(ScorePreload);
-                setPathState(1);
-                break;
-            case 1:
-                if(!follower.isBusy()) {
-                    follower.followPath(Pickup1);
-                    setPathState(2);
-                }
-                break;
-            case 2:
-                follower.followPath(Pickup1);
-                setPathState(-1);
-                break;
+            Path2 = follower
+                    .pathBuilder()
+                    .addPath(
+                            new BezierLine(new Pose(96.300, 95.900), new Pose(96.300, 83.400))
+                    )
+                    .setLinearHeadingInterpolation(Math.toRadians(47), Math.toRadians(0))
+                    .build();
+
+            Path3 = follower
+                    .pathBuilder()
+                    .addPath(
+                            new BezierLine(new Pose(96.300, 83.400), new Pose(120.000, 83.400))
+                    )
+                    .setTangentHeadingInterpolation()
+                    .build();
         }
     }
 
     @Override
     public void loop() {
 
+        follower.update();
+
+        switch (pathState) {
+
+            case 0:
+                    follower.followPath(PathChain.Path1);
+                    Shooter.PatialShoot();
+                   // setPathState(1);
+                //break;
+           /* case 1:   
+                if (!follower.isBusy()) {
+                    setPathState(2);
+                }
+                break;
+            case 2:
+                Shooter.SpinTable();
+                if (pathTimer.getElapsedTime() > 8.0) {
+                    Shooter.Stop();
+                    Shooter.StopSpin();
+                }
+                    setPathState(3);
+                break;
+            case 3:
+                if (!follower.isBusy()) {
+                    setPathState(4);
+                }
+                break;
+            case 4:
+                follower.followPath(PathChain.Path2);
+                setPathState(5);
+                break;
+            case 5:
+                if (!follower.isBusy()) {
+                    setPathState(6);
+                }
+                break;
+            case 6:
+                follower.followPath(PathChain.Path3);
+                    setPathState(7);
+                break;
+            case 7:
+                if (!follower.isBusy()) {
+                    setPathState(8);
+                }
+
+            */
+                break;
+
+        }
+
+
+
         // These loop the movements of the robot, these must be called continuously in order to work
         follower.update();
-        autonomousPathUpdate();
-
         // Feedback to Driver Hub for debugging
         telemetry.addData("path state", pathState);
         telemetry.addData("x", follower.getPose().getX());
@@ -80,9 +135,9 @@ public class TestAuto extends OpMode {
         opmodeTimer = new Timer();
         opmodeTimer.resetTimer();
 
-
+        Shooter = new ShooterSubsystem(hardwareMap);
         follower = Constants.createFollower(hardwareMap);
-        buildPaths();
+        PathChain = new Paths(follower);
         follower.setStartingPose(startPose);
 
     }
