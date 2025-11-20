@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.samples;
 
 
 import com.pedropathing.follower.Follower;
+import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
@@ -18,6 +19,9 @@ public class PedroTeleOpSample extends CommandOpMode {
     private IntakeSubsystem Intake;
     private ShooterSubsystem Shooter;
 
+    private RevTouchSensor magSensor;
+
+
     @Override
     public void initialize() {
         follower = Constants.createFollower(hardwareMap);
@@ -26,8 +30,7 @@ public class PedroTeleOpSample extends CommandOpMode {
         follower.startTeleopDrive();
         Intake = new IntakeSubsystem(hardwareMap);
         Shooter = new ShooterSubsystem(hardwareMap);
-
-
+        magSensor = hardwareMap.get(RevTouchSensor.class, "magSensor");
     }
 
     @Override
@@ -51,14 +54,19 @@ public class PedroTeleOpSample extends CommandOpMode {
         else Shooter.Stop();
 
 
-        if (gamepad2.right_bumper) Shooter.SpinTable();
-        else if (gamepad2.y) Shooter.ReverseSpinTable();
+        if (gamepad2.dpad_right) Shooter.SpinTable();
+        else if (gamepad2.dpad_left) Shooter.ReverseSpinTable();
         else Shooter.StopSpin();
+
+        if (gamepad2.dpad_up && magSensor.isPressed()) Shooter.StopSpin();
+        else if (gamepad2.dpad_up) Shooter.FastSpinTable();
+
 
 
         telemetryData.addData("X", follower.getPose().getX());
         telemetryData.addData("Y", follower.getPose().getY());
         telemetryData.addData("Heading", follower.getPose().getHeading());
+        telemetryData.addData("Magnet", magSensor.getValue());
         telemetryData.update();
     }
 }

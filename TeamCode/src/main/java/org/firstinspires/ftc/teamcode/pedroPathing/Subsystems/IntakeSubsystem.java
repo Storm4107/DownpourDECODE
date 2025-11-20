@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.Subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class IntakeSubsystem {
