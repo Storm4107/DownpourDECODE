@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.pedroPathing; // make sure this aligns with class location
 
 import com.pedropathing.follower.Follower;
+import com.pedropathing.ftc.drivetrains.Mecanum;
+import com.pedropathing.ftc.drivetrains.MecanumConstants;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
@@ -8,9 +10,11 @@ import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.paths.PathConstraints;
 import com.pedropathing.util.Timer;
+import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.seattlesolvers.solverslib.drivebase.MecanumDrive;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.pedroPathing.Subsystems.ShooterSubsystem;
@@ -27,6 +31,7 @@ public class TestAuto extends OpMode {
     private IntakeSubsystem Intake;
 
     public static Paths PathChain;
+    private RevTouchSensor magSensor;
 
 
 
@@ -37,20 +42,19 @@ public class TestAuto extends OpMode {
 
     public static class Paths {
 
-        private static final PathConstraints SLOW_PATH_CONSTRAINTS = new PathConstraints(
-                0.495,
-                6
-        );
-
         public PathChain Path1;
         public PathChain Path2;
         public PathChain Path3;
+        public PathChain Path4;
+        public PathChain Path5;
+        public PathChain Path6;
+        public PathChain Path7;
 
         public Paths(Follower follower) {
             Path1 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(116.300, 131.800), new Pose(101, 100))
+                            new BezierLine(new Pose(116.300, 131.800), new Pose(96.4, 95.7))
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(36), Math.toRadians(45))
                     .build();
@@ -58,7 +62,7 @@ public class TestAuto extends OpMode {
             Path2 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(101.4, 100), new Pose(101.4, 83.400))
+                            new BezierLine(new Pose(96.4, 95.7), new Pose(96.4, 83.400))
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(45), Math.toRadians(0))
                     .build();
@@ -66,10 +70,42 @@ public class TestAuto extends OpMode {
             Path3 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(101.4, 83.400), new Pose(120.000, 83.400))
+                            new BezierLine(new Pose(96.4, 83.400), new Pose(120.000, 83.400))
                     )
-                    .setConstraints(SLOW_PATH_CONSTRAINTS)
                     .setTangentHeadingInterpolation()
+                    .setBrakingStart(.9)
+                    .build();
+
+            Path4 = follower
+                    .pathBuilder()
+                    .addPath(
+                            new BezierLine(new Pose(120.000, 83.400), new Pose(96.400, 95.700))
+                    )
+                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(45))
+                    .build();
+
+            Path5 = follower
+                    .pathBuilder()
+                    .addPath(
+                            new BezierLine(new Pose(96.400, 95.700), new Pose(96.400, 59.400))
+                    )
+                    .setLinearHeadingInterpolation(Math.toRadians(45), Math.toRadians(0))
+                    .build();
+
+            Path6 = follower
+                    .pathBuilder()
+                    .addPath(
+                            new BezierLine(new Pose(96.400, 59.400), new Pose(120.000, 59.400))
+                    )
+                    .setTangentHeadingInterpolation()
+                    .build();
+
+            Path7 = follower
+                    .pathBuilder()
+                    .addPath(
+                            new BezierLine(new Pose(120.000, 59.400), new Pose(96.400, 95.700))
+                    )
+                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(45))
                     .build();
         }
     }
@@ -83,7 +119,8 @@ public class TestAuto extends OpMode {
         follower.update();
         switch (pathState) {
             case 1:
-                    follower.followPath(PathChain.Path1);
+                    //follower.followPath(PathChain.Path1);
+                    follower.followPath(PathChain.Path1,1, true);
                     Shooter.Shoot();
                     setPathState(2);
                 break;
@@ -105,6 +142,7 @@ public class TestAuto extends OpMode {
             case 4:
                 if (mStateTime.time() >= 8.0) {
                     Shooter.Stop();
+                    Shooter.StopSpin();
                    setPathState(5);
                 }
                 break;
@@ -120,16 +158,45 @@ public class TestAuto extends OpMode {
                 break;
             case 7:
                 Intake.In();
-                follower.followPath(PathChain.Path3);
+                follower.followPath(PathChain.Path3,.2,true);
+                Shooter.FastSpinTable();
+                Intake.In();
+                mStateTime.reset();
+                v_state++;
                     setPathState(8);
                 break;
             case 8:
-                if (!follower.isBusy()) {
+                if (mStateTime.time() >= 4.0) {
+                    Intake.stop();
+                    Shooter.StopSpin();
                     setPathState(9);
                 }
                 break;
             case 9:
-                Intake.stop();
+                follower.followPath(PathChain.Path4);
+                Shooter.Shoot();
+                setPathState(10);
+                break;
+
+            case 10:
+                if (!follower.isBusy()) {
+                    setPathState(11);
+                }
+                break;
+            case 11:
+                Shooter.Shoot();
+                Shooter.SpinTable();
+                telemetry.addData("Current Elapsed Time", pathTimer);
+                mStateTime.reset();
+                v_state++;
+                setPathState(12);
+                break;
+            case 12:
+                if (mStateTime.time() >= 8.0) {
+                    Shooter.Stop();
+                    Shooter.StopSpin();
+                    setPathState(13);
+                }
                 break;
 
         }
@@ -157,12 +224,18 @@ public class TestAuto extends OpMode {
         follower = Constants.createFollower(hardwareMap);
         PathChain = new Paths(follower);
         follower.setStartingPose(startPose);
+        magSensor = hardwareMap.get(RevTouchSensor.class, "magSensor");
 
 
+        telemetry.addData("Magnet", magSensor.getValue());
+        telemetry.update();
     }
 
     @Override
-    public void init_loop() {}
+    public void init_loop() {
+        if (magSensor.isPressed()) Shooter.StopSpin();
+        else Shooter.FastSpinTable();
+    }
 
     @Override
     public void start() {

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.Subsystems;
 
+import com.google.gson.annotations.Until;
 import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -11,11 +12,14 @@ public class ShooterSubsystem {
     private DcMotor ShooterIntake;
     private DcMotor Shooter;
     private DcMotor TurnTable;
+    private RevTouchSensor magsensor;
+
 
     public ShooterSubsystem(HardwareMap hardwareMap) {
         ShooterIntake = hardwareMap.get(DcMotor.class, "ShooterIntake");
         Shooter = hardwareMap.get(DcMotor.class, "Shooter");
         TurnTable = hardwareMap.get(DcMotor.class, "TurnTable");
+        magsensor = hardwareMap.get(RevTouchSensor.class, "magSensor");
     }
 
     public void Shoot() {
@@ -52,6 +56,11 @@ public class ShooterSubsystem {
 
     public void ReverseSpinTable() {
         TurnTable.setPower(-.3);
+    }
+    public void Home() {
+        TurnTable.setPower(.5);
+        if (magsensor.isPressed()) TurnTable.setPower(0);
+
     }
 
     public void StopSpin() {
