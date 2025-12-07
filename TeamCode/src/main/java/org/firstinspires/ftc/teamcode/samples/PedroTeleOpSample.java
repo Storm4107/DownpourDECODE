@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.samples;
 
 
 import com.pedropathing.follower.Follower;
+import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -45,21 +46,32 @@ public class PedroTeleOpSample extends CommandOpMode {
         follower.setTeleOpDrive(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, false);
         follower.update();
 
-        if (gamepad2.left_bumper) Intake.In();
+        if (gamepad1.left_bumper){
+            follower.setPose(new Pose(0,0,Math.toRadians(45)));
+        }
+
+        if (gamepad1.y) follower.setMaxPower(.6);
+        else follower.setMaxPower(1);
+
+        if (gamepad2.right_bumper) Intake.In();
         else Intake.stop();
 
-        if (gamepad2.x) Shooter.Shoot();
+        if (gamepad2.x) Shooter.ShooterOnly();
         else if (gamepad2.b) Shooter.FullShoot();
         else if (gamepad2.a) Shooter.PatialShoot();
-        else Shooter.Stop();
+        else {
+            Shooter.Stop();
+        }
 
 
         if (gamepad2.dpad_right) Shooter.SpinTable();
         else if (gamepad2.dpad_left) Shooter.ReverseSpinTable();
         else Shooter.StopSpin();
 
-        if (gamepad2.dpad_up && magSensor.isPressed()) Shooter.StopSpin();
-        else if (gamepad2.dpad_up) Shooter.FastSpinTable();
+        if (gamepad2.dpad_down && magSensor.isPressed()) Shooter.StopSpin();
+        else if (gamepad2.dpad_down) Shooter.FastSpinTable();
+
+        Shooter.update();
 
 
 

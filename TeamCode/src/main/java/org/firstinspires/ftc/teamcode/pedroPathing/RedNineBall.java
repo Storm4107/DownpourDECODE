@@ -1,10 +1,8 @@
 package org.firstinspires.ftc.teamcode.pedroPathing; // make sure this aligns with class location
 
 import com.pedropathing.follower.Follower;
-import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
-import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.paths.PathConstraints;
 import com.pedropathing.util.Timer;
@@ -16,7 +14,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.pedroPathing.Subsystems.ShooterSubsystem;
 
 @Autonomous(name = "TestAuto")
-public class TestAuto extends OpMode {
+public class RedNineBall extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, opmodeTimer;
