@@ -20,13 +20,13 @@ import com.seattlesolvers.solverslib.drivebase.MecanumDrive;
 import org.firstinspires.ftc.teamcode.pedroPathing.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.pedroPathing.Subsystems.ShooterSubsystem;
 
-@Autonomous(name = "RedNineBall")
-public class RedNineBall extends OpMode {
+@Autonomous(name = "RedSixBall")
+public class RedSixBall extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, opmodeTimer;
     private int pathState;
-    private final Pose startPose = new Pose(116.3, 131.8, Math.toRadians(36));
+    private final Pose startPose = new Pose(85, 10, Math.toRadians(90));
 
     private ShooterSubsystem Shooter;
     private IntakeSubsystem Intake;
@@ -50,29 +50,28 @@ public class RedNineBall extends OpMode {
         public PathChain Path5;
         public PathChain Path6;
         public PathChain Path7;
-        public PathChain Path8;
 
         public Paths(Follower follower) {
             Path1 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(116.300, 131.800), new Pose(95.000, 95.000))
+                            new BezierLine(new Pose(87.000, 9.000), new Pose(85.000, 15.000))
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(36), Math.toRadians(45))
+                    .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(67))
                     .build();
 
             Path2 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(95.000, 95.000), new Pose(95.000, 83.400))
+                            new BezierLine(new Pose(85.000, 15.000), new Pose(98.000, 35.000))
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(45), Math.toRadians(0))
+                    .setLinearHeadingInterpolation(Math.toRadians(67), Math.toRadians(0))
                     .build();
 
             Path3 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(95.000, 83.400), new Pose(120.000, 83.400))
+                            new BezierLine(new Pose(98.000, 35.000), new Pose(120.000, 35.000))
                     )
                     .setTangentHeadingInterpolation()
                     .build();
@@ -80,23 +79,23 @@ public class RedNineBall extends OpMode {
             Path4 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(120.000, 83.400), new Pose(95.000, 95.000))
+                            new BezierLine(new Pose(120.000, 35.000), new Pose(85.000, 15.000))
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(45))
+                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(67))
                     .build();
 
             Path5 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(95.000, 95.000), new Pose(95.000, 59.400))
+                            new BezierLine(new Pose(85.000, 15.000), new Pose(100, 15.000))
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(45), Math.toRadians(0))
+                    .setLinearHeadingInterpolation(Math.toRadians(67), Math.toRadians(0))
                     .build();
 
             Path6 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(95.000, 59.400), new Pose(120.000, 59.400))
+                            new BezierLine(new Pose(100, 15.000), new Pose(135.000, 15.000))
                     )
                     .setTangentHeadingInterpolation()
                     .build();
@@ -104,20 +103,15 @@ public class RedNineBall extends OpMode {
             Path7 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(120.000, 59.400), new Pose(95.000, 95.000))
+                            new BezierLine(new Pose(135.000, 15.000), new Pose(85.000, 15.000))
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(42))
-                    .build();
-
-            Path8 = follower
-                    .pathBuilder()
-                    .addPath(
-                            new BezierLine(new Pose(95.000, 95.000), new Pose(115.600, 93.400))
-                    )
-                    .setLinearHeadingInterpolation(Math.toRadians(42), Math.toRadians(42))
+                    
+                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(67))
                     .build();
         }
     }
+
+
     ElapsedTime mStateTime = new ElapsedTime();
     int v_state = 0;
 
@@ -128,20 +122,20 @@ public class RedNineBall extends OpMode {
         follower.update();
         switch (pathState) {
             case 1:
-                //follower.followPath(PathChain.Path1);
-                follower.followPath(PathChain.Path1,1, true);
-                Shooter.ShootPID();
+                follower.followPath(PathChain.Path1);
+                Shooter.MaxShootPID();
+                mStateTime.reset();
+                v_state++;
                 setPathState(2);
                 break;
-
             case 2:
-                if (!follower.isBusy()) {
+                if (mStateTime.time() >= 1.5) {
                     setPathState(3);
                 }
                 break;
             case 3:
-                Shooter.ShootPID();
-                Shooter.SpinTable();
+                Shooter.MaxShootPID();
+                Shooter.FasterSpinTable();
                 telemetry.addData("Current Elapsed Time", pathTimer);
                 mStateTime.reset();
                 v_state++;
@@ -149,7 +143,7 @@ public class RedNineBall extends OpMode {
                 break;
 
             case 4:
-                if (mStateTime.time() >= 5.0) {
+                if (mStateTime.time() >= 6.0) {
                     Shooter.Stop();
                     Shooter.StopSpin();
                     setPathState(5);
@@ -157,7 +151,7 @@ public class RedNineBall extends OpMode {
                 break;
 
             case 5:
-                follower.followPath(PathChain.Path2);
+                follower.followPath(PathChain.Path2,1,true);
                 setPathState(6);
                 break;
             case 6:
@@ -167,7 +161,7 @@ public class RedNineBall extends OpMode {
                 break;
             case 7:
                 Intake.In();
-                follower.followPath(PathChain.Path3,.3,true);
+                follower.followPath(PathChain.Path3,.35,true);
                 Shooter.FastSpinTable();
                 Intake.In();
                 mStateTime.reset();
@@ -175,7 +169,7 @@ public class RedNineBall extends OpMode {
                 setPathState(8);
                 break;
             case 8:
-                if (mStateTime.time() >= 3) {
+                if (mStateTime.time() >= 3.5) {
                     Intake.stop();
                     Shooter.StopSpin();
                     setPathState(9);
@@ -183,43 +177,44 @@ public class RedNineBall extends OpMode {
                 break;
             case 9:
                 follower.followPath(PathChain.Path4);
-                Shooter.ShooterOnly();
+                Shooter.MaxShooterOnly();
                 Shooter.Home();
+                mStateTime.reset();
+                v_state++;
                 setPathState(10);
                 break;
 
             case 10:
-                if (!follower.isBusy()) {
+                if (mStateTime.time() >= 2) {
                     setPathState(11);
                 }
                 break;
             case 11:
-                Shooter.ShootPID();
-                Shooter.SpinTable();
+                Shooter.MaxShootPID();
+                Shooter.FasterSpinTable();
                 telemetry.addData("Current Elapsed Time", pathTimer);
                 mStateTime.reset();
                 v_state++;
                 setPathState(12);
                 break;
             case 12:
-                if (mStateTime.time() >= 5.0) {
+                if (mStateTime.time() >= 6.0) {
                     Shooter.Stop();
                     Shooter.StopSpin();
                     setPathState(13);
                 }
                 break;
             case 13:
-                follower.followPath(PathChain.Path5);
+                follower.followPath(PathChain.Path5,1,true);
                 setPathState(14);
                 break;
             case 14:
                 if (!follower.isBusy()) {
                     setPathState(15);
                 }
-                break;
             case 15:
                 Intake.In();
-                follower.followPath(PathChain.Path6,.3,true);
+                follower.followPath(PathChain.Path6,.4,true);
                 Shooter.FastSpinTable();
                 Intake.In();
                 mStateTime.reset();
@@ -227,7 +222,7 @@ public class RedNineBall extends OpMode {
                 setPathState(16);
                 break;
             case 16:
-                if (mStateTime.time() >= 3) {
+                if (mStateTime.time() >= 4) {
                     Intake.stop();
                     Shooter.StopSpin();
                     setPathState(17);
@@ -235,19 +230,20 @@ public class RedNineBall extends OpMode {
                 break;
             case 17:
                 follower.followPath(PathChain.Path7);
-                Shooter.ShooterOnly();
+                Shooter.MaxShooterOnly();
                 Shooter.Home();
+                mStateTime.reset();
+                v_state++;
                 setPathState(18);
                 break;
-
             case 18:
-                if (!follower.isBusy()) {
+                if (mStateTime.time() >= 2) {
                     setPathState(19);
                 }
                 break;
             case 19:
-                Shooter.ShootPID();
-                Shooter.SpinTable();
+                Shooter.MaxShootPID();
+                Shooter.FasterSpinTable();
                 telemetry.addData("Current Elapsed Time", pathTimer);
                 mStateTime.reset();
                 v_state++;
@@ -258,15 +254,6 @@ public class RedNineBall extends OpMode {
                     Shooter.Stop();
                     Shooter.StopSpin();
                     setPathState(21);
-                }
-                break;
-            case 21:
-                follower.followPath(PathChain.Path8);
-                setPathState(22);
-                break;
-            case 22:
-                if (!follower.isBusy()) {
-                    setPathState(23);
                 }
 
         }

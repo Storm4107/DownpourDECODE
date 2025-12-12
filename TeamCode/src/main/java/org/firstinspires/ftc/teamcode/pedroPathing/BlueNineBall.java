@@ -20,13 +20,13 @@ import com.seattlesolvers.solverslib.drivebase.MecanumDrive;
 import org.firstinspires.ftc.teamcode.pedroPathing.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.pedroPathing.Subsystems.ShooterSubsystem;
 
-@Autonomous(name = "RedNineBall")
-public class RedNineBall extends OpMode {
+@Autonomous(name = "BlueNineBall")
+public class BlueNineBall extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, opmodeTimer;
     private int pathState;
-    private final Pose startPose = new Pose(116.3, 131.8, Math.toRadians(36));
+    private final Pose startPose = new Pose(27.8, 131.8, Math.toRadians(145));
 
     private ShooterSubsystem Shooter;
     private IntakeSubsystem Intake;
@@ -56,23 +56,23 @@ public class RedNineBall extends OpMode {
             Path1 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(116.300, 131.800), new Pose(95.000, 95.000))
+                            new BezierLine(new Pose(27.800, 131.800), new Pose(48.200, 95.700))
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(36), Math.toRadians(45))
+                    .setLinearHeadingInterpolation(Math.toRadians(145), Math.toRadians(130))
                     .build();
 
             Path2 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(95.000, 95.000), new Pose(95.000, 83.400))
+                            new BezierLine(new Pose(48.200, 95.700), new Pose(48.200, 87))
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(45), Math.toRadians(0))
+                    .setLinearHeadingInterpolation(Math.toRadians(130), Math.toRadians(180))
                     .build();
 
             Path3 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(95.000, 83.400), new Pose(120.000, 83.400))
+                            new BezierLine(new Pose(48.200, 87), new Pose(24.000, 87))
                     )
                     .setTangentHeadingInterpolation()
                     .build();
@@ -80,23 +80,23 @@ public class RedNineBall extends OpMode {
             Path4 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(120.000, 83.400), new Pose(95.000, 95.000))
+                            new BezierLine(new Pose(24.000, 87), new Pose(48.200, 95.700))
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(45))
+                    .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(130))
                     .build();
 
             Path5 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(95.000, 95.000), new Pose(95.000, 59.400))
+                            new BezierLine(new Pose(48.200, 95.700), new Pose(48.200, 62))
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(45), Math.toRadians(0))
+                    .setLinearHeadingInterpolation(Math.toRadians(130), Math.toRadians(180))
                     .build();
 
             Path6 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(95.000, 59.400), new Pose(120.000, 59.400))
+                            new BezierLine(new Pose(48.200, 62), new Pose(24.000, 62))
                     )
                     .setTangentHeadingInterpolation()
                     .build();
@@ -104,18 +104,19 @@ public class RedNineBall extends OpMode {
             Path7 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(120.000, 59.400), new Pose(95.000, 95.000))
+                            new BezierLine(new Pose(24.000, 62), new Pose(48.200, 95.700))
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(42))
+                    .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(132))
                     .build();
 
             Path8 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(95.000, 95.000), new Pose(115.600, 93.400))
+                            new BezierLine(new Pose(48.200, 95.700), new Pose(30.000, 84.000))
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(42), Math.toRadians(42))
+                    .setLinearHeadingInterpolation(Math.toRadians(132), Math.toRadians(132))
                     .build();
+
         }
     }
     ElapsedTime mStateTime = new ElapsedTime();

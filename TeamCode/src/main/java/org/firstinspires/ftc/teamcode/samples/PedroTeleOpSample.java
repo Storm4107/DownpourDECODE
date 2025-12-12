@@ -50,15 +50,15 @@ public class PedroTeleOpSample extends CommandOpMode {
             follower.setPose(new Pose(0,0,Math.toRadians(45)));
         }
 
-        if (gamepad1.y) follower.setMaxPower(.6);
+        if (gamepad1.right_bumper) follower.setMaxPower(.6);
         else follower.setMaxPower(1);
 
         if (gamepad2.right_bumper) Intake.In();
         else Intake.stop();
 
-        if (gamepad2.x) Shooter.ShooterOnly();
-        else if (gamepad2.b) Shooter.FullShoot();
-        else if (gamepad2.a) Shooter.PatialShoot();
+        if (gamepad2.x) Shooter.ShootPID();
+        else if (gamepad2.b) Shooter.FullShootPID();
+        else if (gamepad2.a) Shooter.PartialShoot();
         else {
             Shooter.Stop();
         }
