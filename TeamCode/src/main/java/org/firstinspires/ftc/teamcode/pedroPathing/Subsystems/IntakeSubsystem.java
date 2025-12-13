@@ -20,6 +20,8 @@ public class IntakeSubsystem {
         Intake.setPower(0);
     }
 
+    public void Reverse() {Intake.setPower(-1);}
+
 
 
 }

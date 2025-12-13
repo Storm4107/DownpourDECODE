@@ -56,6 +56,11 @@ public class ShooterSubsystem {
         Shooter.setVelocity(3000);
     }
 
+    public void PartialShooterOnly() {
+        Shooter.getZeroPowerBehavior();
+        Shooter.setVelocity(2850);
+    }
+
     public void FullShootPID() {
         ShooterIntake.setPower(-1);
         Shooter.setVelocity(4800);
@@ -92,7 +97,7 @@ public class ShooterSubsystem {
     public void PartialShoot() {
         ShooterIntake.setPower(-1);
         Shooter.getZeroPowerBehavior();
-        Shooter.setVelocity(2600);
+        Shooter.setVelocity(2850);
     }
         public void Stop () {
             ShooterIntake.setPower(0);
@@ -112,7 +117,7 @@ public class ShooterSubsystem {
             TurnTable.setPower(.3);
         }
         public void FasterSpinTable() {
-            TurnTable.setPower(.4);
+            TurnTable.setPower(.45);
         }
         public void FastSpinTable () {
             TurnTable.setPower(.6);
