@@ -14,13 +14,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.pedroPathing.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.pedroPathing.Subsystems.ShooterSubsystem;
 
-@Autonomous(name = "RedShort")
-public class RedShort extends OpMode {
+@Autonomous(name = "RedNineLong")
+public class RedNineLong extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, opmodeTimer;
     private int pathState;
-    private final Pose startPose = new Pose(116.3, 131.8, Math.toRadians(36));
+    private final Pose startPose = new Pose(87, 9, Math.toRadians(90));
 
     private ShooterSubsystem Shooter;
     private IntakeSubsystem Intake;
@@ -44,29 +44,28 @@ public class RedShort extends OpMode {
         public PathChain Path5;
         public PathChain Path6;
         public PathChain Path7;
-        public PathChain Path8;
 
         public Paths(Follower follower) {
             Path1 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(116.300, 131.800), new Pose(95.000, 95.000))
+                            new BezierLine(new Pose(87.000, 9.000), new Pose(85.000, 15.000))
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(36), Math.toRadians(43))
+                    .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(65))
                     .build();
 
             Path2 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(95.000, 95.000), new Pose(95.000, 85))
+                            new BezierLine(new Pose(85.000, 15.000), new Pose(98.000, 35.000))
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(43), Math.toRadians(0))
+                    .setLinearHeadingInterpolation(Math.toRadians(65), Math.toRadians(0))
                     .build();
 
             Path3 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(95.000, 85), new Pose(120.000, 85))
+                            new BezierLine(new Pose(98.000, 35.000), new Pose(120.000, 35.000))
                     )
                     .setTangentHeadingInterpolation()
                     .build();
@@ -74,44 +73,40 @@ public class RedShort extends OpMode {
             Path4 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(120.000, 85), new Pose(95.000, 95.000))
+                            new BezierLine(new Pose(120.000, 35.000), new Pose(85.000, 15.000))
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(43))
+                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(65))
                     .build();
 
             Path5 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(95.000, 95.000), new Pose(95.000, 59.400))
+                            new BezierLine(new Pose(85.000, 15.000), new Pose(100, 15.000))
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(43), Math.toRadians(0))
+                    .setLinearHeadingInterpolation(Math.toRadians(65), Math.toRadians(0))
                     .build();
 
             Path6 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(95.000, 59.400), new Pose(120.000, 59.400))
+                            new BezierLine(new Pose(100, 15.000), new Pose(135.000, 15.000))
                     )
                     .setTangentHeadingInterpolation()
                     .build();
-
             Path7 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(120.000, 59.400), new Pose(95.000, 95.000))
+                            new BezierLine(new Pose(135.000, 15.000), new Pose(85.000, 15.000))
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(42))
+
+                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(65))
                     .build();
 
-            Path8 = follower
-                    .pathBuilder()
-                    .addPath(
-                            new BezierLine(new Pose(95.000, 95.000), new Pose(115.600, 93.400))
-                    )
-                    .setLinearHeadingInterpolation(Math.toRadians(42), Math.toRadians(0))
-                    .build();
+
         }
     }
+
+
     ElapsedTime mStateTime = new ElapsedTime();
     int v_state = 0;
 
@@ -122,20 +117,20 @@ public class RedShort extends OpMode {
         follower.update();
         switch (pathState) {
             case 1:
-                //follower.followPath(PathChain.Path1);
-                follower.followPath(PathChain.Path1,1, true);
-                Shooter.ShooterOnly();
+                follower.followPath(PathChain.Path1);
+                Shooter.MaxShooterOnly();
+                mStateTime.reset();
+                v_state++;
                 setPathState(2);
                 break;
-
             case 2:
-                if (!follower.isBusy()) {
+                if (mStateTime.time() >= 1.5) {
                     setPathState(3);
                 }
                 break;
             case 3:
                 Shooter.Rubber();
-                Shooter.SpinTable();
+                Shooter.FasterSpinTable();
                 telemetry.addData("Current Elapsed Time", pathTimer);
                 mStateTime.reset();
                 v_state++;
@@ -143,7 +138,7 @@ public class RedShort extends OpMode {
                 break;
 
             case 4:
-                if (mStateTime.time() >= 5.0) {
+                if (mStateTime.time() >= 6.0) {
                     Shooter.ShooterIntakeStop();
                     Shooter.StopSpin();
                     setPathState(5);
@@ -151,7 +146,7 @@ public class RedShort extends OpMode {
                 break;
 
             case 5:
-                follower.followPath(PathChain.Path2);
+                follower.followPath(PathChain.Path2,1,true);
                 setPathState(6);
                 break;
             case 6:
@@ -161,15 +156,16 @@ public class RedShort extends OpMode {
                 break;
             case 7:
                 Intake.In();
-                follower.followPath(PathChain.Path3,.3,true);
-                Shooter.SpinTable();
+                follower.followPath(PathChain.Path3,.35,true);
+                Shooter.FastSpinTable();
                 Intake.In();
                 mStateTime.reset();
                 v_state++;
                 setPathState(8);
                 break;
             case 8:
-                if (mStateTime.time() >= 3) {
+                if (mStateTime.time() >= 3.5) {
+                    Intake.stop();
                     Shooter.StopSpin();
                     setPathState(9);
                 }
@@ -177,51 +173,51 @@ public class RedShort extends OpMode {
             case 9:
                 follower.followPath(PathChain.Path4);
                 Shooter.Home();
+                mStateTime.reset();
+                v_state++;
                 setPathState(10);
                 break;
 
             case 10:
-                if (!follower.isBusy()) {
+                if (mStateTime.time() >= 2) {
                     setPathState(11);
                 }
                 break;
             case 11:
                 Shooter.Rubber();
-                Shooter.SpinTable();
+                Shooter.FasterSpinTable();
                 telemetry.addData("Current Elapsed Time", pathTimer);
                 mStateTime.reset();
                 v_state++;
                 setPathState(12);
                 break;
             case 12:
-                if (mStateTime.time() >= 5.0) {
-                    Shooter.ShooterIntakeStop();
-                    Intake.In();
+                if (mStateTime.time() >= 6.0) {
+                    Shooter.Stop();
                     Shooter.StopSpin();
                     setPathState(13);
                 }
                 break;
             case 13:
-                follower.followPath(PathChain.Path5);
+                follower.followPath(PathChain.Path5,1,true);
                 setPathState(14);
                 break;
             case 14:
                 if (!follower.isBusy()) {
                     setPathState(15);
                 }
-                break;
             case 15:
                 Intake.In();
-                follower.followPath(PathChain.Path6,.3,true);
-                Shooter.SpinTable();
+                follower.followPath(PathChain.Path6,.6,true);
+                Shooter.FastSpinTable();
                 Intake.In();
                 mStateTime.reset();
                 v_state++;
                 setPathState(16);
                 break;
             case 16:
-                if (mStateTime.time() >= 3) {
-                    Intake.stop();
+                if (mStateTime.time() >= 4) {
+                    Intake.Reverse();
                     Shooter.StopSpin();
                     setPathState(17);
                 }
@@ -233,15 +229,15 @@ public class RedShort extends OpMode {
                 v_state++;
                 setPathState(18);
                 break;
-
             case 18:
                 if (mStateTime.time() >= 2) {
+                    Intake.stop();
                     setPathState(19);
                 }
                 break;
             case 19:
                 Shooter.Rubber();
-                Shooter.SpinTable();
+                Shooter.FasterSpinTable();
                 telemetry.addData("Current Elapsed Time", pathTimer);
                 mStateTime.reset();
                 v_state++;
@@ -253,15 +249,7 @@ public class RedShort extends OpMode {
                     Shooter.StopSpin();
                     setPathState(21);
                 }
-                break;
-            case 21:
-                follower.followPath(PathChain.Path8);
-                setPathState(22);
-                break;
-            case 22:
-                if (!follower.isBusy()) {
-                    setPathState(23);
-                }
+
 
         }
 

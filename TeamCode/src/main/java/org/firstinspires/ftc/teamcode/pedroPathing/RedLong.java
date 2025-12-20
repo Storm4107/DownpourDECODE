@@ -20,7 +20,7 @@ public class RedLong extends OpMode {
     private Follower follower;
     private Timer pathTimer, opmodeTimer;
     private int pathState;
-    private final Pose startPose = new Pose(85, 10, Math.toRadians(90));
+    private final Pose startPose = new Pose(87, 9, Math.toRadians(90));
 
     private ShooterSubsystem Shooter;
     private IntakeSubsystem Intake;
@@ -100,7 +100,7 @@ public class RedLong extends OpMode {
                             new BezierLine(new Pose(135.000, 15.000), new Pose(100, 16.000))
                     )
                     
-                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(67))
+                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(90))
                     .build();
             /*Path7 = follower
                     .pathBuilder()
@@ -127,7 +127,7 @@ public class RedLong extends OpMode {
         switch (pathState) {
             case 1:
                 follower.followPath(PathChain.Path1);
-                Shooter.MaxShootPID();
+                Shooter.MaxShooterOnly();
                 mStateTime.reset();
                 v_state++;
                 setPathState(2);
@@ -138,7 +138,7 @@ public class RedLong extends OpMode {
                 }
                 break;
             case 3:
-                Shooter.MaxShootPID();
+                Shooter.Rubber();
                 Shooter.FasterSpinTable();
                 telemetry.addData("Current Elapsed Time", pathTimer);
                 mStateTime.reset();
@@ -148,7 +148,7 @@ public class RedLong extends OpMode {
 
             case 4:
                 if (mStateTime.time() >= 6.0) {
-                    Shooter.Stop();
+                    Shooter.ShooterIntakeStop();
                     Shooter.StopSpin();
                     setPathState(5);
                 }
@@ -181,7 +181,6 @@ public class RedLong extends OpMode {
                 break;
             case 9:
                 follower.followPath(PathChain.Path4);
-                Shooter.MaxShooterOnly();
                 Shooter.Home();
                 mStateTime.reset();
                 v_state++;
@@ -194,7 +193,7 @@ public class RedLong extends OpMode {
                 }
                 break;
             case 11:
-                Shooter.MaxShootPID();
+                Shooter.Rubber();
                 Shooter.FasterSpinTable();
                 telemetry.addData("Current Elapsed Time", pathTimer);
                 mStateTime.reset();

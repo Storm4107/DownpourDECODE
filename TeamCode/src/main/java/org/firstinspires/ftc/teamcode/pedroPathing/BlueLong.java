@@ -20,7 +20,7 @@ public class BlueLong extends OpMode {
     private Follower follower;
     private Timer pathTimer, opmodeTimer;
     private int pathState;
-    private final Pose startPose = new Pose(85, 10, Math.toRadians(90));
+    private final Pose startPose = new Pose(57, 9, Math.toRadians(90));
 
     private ShooterSubsystem Shooter;
     private IntakeSubsystem Intake;
@@ -97,9 +97,9 @@ public class BlueLong extends OpMode {
             Path7 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(12.000, 15.000), new Pose(44.000, 22.000))
+                            new BezierLine(new Pose(12.000, 15.000), new Pose(61.000, 15.000))
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(116))
+                    .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(90))
                     .build();
             /*Path7 = follower
                     .pathBuilder()
@@ -124,7 +124,7 @@ public class BlueLong extends OpMode {
         switch (pathState) {
             case 1:
                 follower.followPath(PathChain.Path1);
-                Shooter.MaxShootPID();
+                Shooter.MaxShooterOnly();
                 mStateTime.reset();
                 v_state++;
                 setPathState(2);
@@ -135,7 +135,7 @@ public class BlueLong extends OpMode {
                 }
                 break;
             case 3:
-                Shooter.MaxShootPID();
+                Shooter.Rubber();
                 Shooter.FasterSpinTable();
                 telemetry.addData("Current Elapsed Time", pathTimer);
                 mStateTime.reset();
@@ -145,7 +145,7 @@ public class BlueLong extends OpMode {
 
             case 4:
                 if (mStateTime.time() >= 6.0) {
-                    Shooter.Stop();
+                    Shooter.ShooterIntakeStop();
                     Shooter.StopSpin();
                     setPathState(5);
                 }
@@ -178,7 +178,6 @@ public class BlueLong extends OpMode {
                 break;
             case 9:
                 follower.followPath(PathChain.Path4);
-                Shooter.MaxShooterOnly();
                 Shooter.Home();
                 mStateTime.reset();
                 v_state++;
@@ -191,7 +190,7 @@ public class BlueLong extends OpMode {
                 }
                 break;
             case 11:
-                Shooter.MaxShootPID();
+                Shooter.Rubber();
                 Shooter.FasterSpinTable();
                 telemetry.addData("Current Elapsed Time", pathTimer);
                 mStateTime.reset();

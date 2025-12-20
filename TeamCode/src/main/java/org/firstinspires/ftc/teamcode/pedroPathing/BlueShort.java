@@ -108,7 +108,7 @@ public class BlueShort extends OpMode {
                     .addPath(
                             new BezierLine(new Pose(48.200, 95.700), new Pose(30.000, 84.000))
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(132), Math.toRadians(132))
+                    .setLinearHeadingInterpolation(Math.toRadians(132), Math.toRadians(90))
                     .build();
 
         }
@@ -125,7 +125,7 @@ public class BlueShort extends OpMode {
             case 1:
                 //follower.followPath(PathChain.Path1);
                 follower.followPath(PathChain.Path1,1, true);
-                Shooter.ShootPID();
+                Shooter.ShooterOnly();
                 setPathState(2);
                 break;
 
@@ -135,7 +135,7 @@ public class BlueShort extends OpMode {
                 }
                 break;
             case 3:
-                Shooter.ShootPID();
+                Shooter.Rubber();
                 Shooter.SpinTable();
                 telemetry.addData("Current Elapsed Time", pathTimer);
                 mStateTime.reset();
@@ -145,7 +145,7 @@ public class BlueShort extends OpMode {
 
             case 4:
                 if (mStateTime.time() >= 5.0) {
-                    Shooter.Stop();
+                    Shooter.ShooterIntakeStop();
                     Shooter.StopSpin();
                     setPathState(5);
                 }
@@ -178,7 +178,6 @@ public class BlueShort extends OpMode {
                 break;
             case 9:
                 follower.followPath(PathChain.Path4);
-                Shooter.ShooterOnly();
                 Shooter.Home();
                 setPathState(10);
                 break;
@@ -189,7 +188,7 @@ public class BlueShort extends OpMode {
                 }
                 break;
             case 11:
-                Shooter.ShootPID();
+                Shooter.Rubber();
                 Shooter.SpinTable();
                 telemetry.addData("Current Elapsed Time", pathTimer);
                 mStateTime.reset();
@@ -198,7 +197,7 @@ public class BlueShort extends OpMode {
                 break;
             case 12:
                 if (mStateTime.time() >= 5.0) {
-                    Shooter.Stop();
+                    Shooter.ShooterIntakeStop();
                     Shooter.StopSpin();
                     setPathState(13);
                 }
@@ -230,7 +229,6 @@ public class BlueShort extends OpMode {
                 break;
             case 17:
                 follower.followPath(PathChain.Path7);
-                Shooter.ShooterOnly();
                 Shooter.Home();
                 setPathState(18);
                 break;
@@ -241,7 +239,7 @@ public class BlueShort extends OpMode {
                 }
                 break;
             case 19:
-                Shooter.ShootPID();
+                Shooter.Rubber();
                 Shooter.SpinTable();
                 telemetry.addData("Current Elapsed Time", pathTimer);
                 mStateTime.reset();

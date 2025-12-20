@@ -36,20 +36,23 @@ public class ShooterSubsystem {
 
         Shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        Shooter.setVelocityPIDFCoefficients(20,0,0,2.5);
+        Shooter.setVelocityPIDFCoefficients(20,0,.5,1.2);
+
+
     }
 
-    public void ShootPID() {
+    /*public void ShootPID() {
         ShooterIntake.setPower(-1);
         Shooter.getZeroPowerBehavior();
         Shooter.setVelocity(3050);
     }
-
-    public void Shoot() {
+    public void AutoShootPID() {
         ShooterIntake.setPower(-1);
         Shooter.getZeroPowerBehavior();
-        Shooter.setPower(.9);
+        Shooter.setVelocity(3000);
     }
+
+     */
 
     public void ShooterOnly() {
         Shooter.getZeroPowerBehavior();
@@ -61,25 +64,34 @@ public class ShooterSubsystem {
         Shooter.setVelocity(2850);
     }
 
-    public void FullShootPID() {
+    /*public void FullShootPID() {
         ShooterIntake.setPower(-1);
         Shooter.setVelocity(4800);
         Shooter.getZeroPowerBehavior();
     }
+
+     */
 
     public void FullShooterOnly() {
         Shooter.getZeroPowerBehavior();
         Shooter.setVelocity(4800);
     }
 
-    public void MaxShootPID() {
+    /*public void MaxShootPID() {
         ShooterIntake.setPower(-1);
         Shooter.getZeroPowerBehavior();
         Shooter.setVelocity(4000);
     }
+    public void AutoMaxShootPID() {
+        ShooterIntake.setPower(-1);
+        Shooter.getZeroPowerBehavior();
+        Shooter.setVelocity(3875);
+    }
+
+     */
     public void MaxShooterOnly() {
         Shooter.getZeroPowerBehavior();
-        Shooter.setVelocity(4000);
+        Shooter.setVelocity(3900);
     }
 
     public void ShooterOnlyFull() {
@@ -88,20 +100,25 @@ public class ShooterSubsystem {
 
     }
 
-    public void FullShoot() {
-        ShooterIntake.setPower(-1);
-        Shooter.setPower(1);
-        Shooter.getZeroPowerBehavior();
-    }
-
-    public void PartialShoot() {
+    /*public void PartialShoot() {
         ShooterIntake.setPower(-1);
         Shooter.getZeroPowerBehavior();
         Shooter.setVelocity(2850);
     }
+
+     */
         public void Stop () {
             ShooterIntake.setPower(0);
             Shooter.setPower(0);
+        }
+        public void ShooterStop() {
+        Shooter.setPower(0);
+        }
+        public void ShooterIntakeStop() {
+        ShooterIntake.setPower(0);
+        }
+        public void Rubber() {
+            ShooterIntake.setPower(-1);
         }
 
         public void StopShooterPID () {
@@ -114,7 +131,7 @@ public class ShooterSubsystem {
         }
 
         public void SpinTable () {
-            TurnTable.setPower(.3);
+            TurnTable.setPower(.4);
         }
         public void FasterSpinTable() {
             TurnTable.setPower(.45);
