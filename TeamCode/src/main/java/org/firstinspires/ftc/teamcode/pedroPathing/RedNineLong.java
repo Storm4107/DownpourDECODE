@@ -124,7 +124,7 @@ public class RedNineLong extends OpMode {
                 setPathState(2);
                 break;
             case 2:
-                if (mStateTime.time() >= 1.5) {
+                if (mStateTime.time() >= 2.5) {
                     setPathState(3);
                 }
                 break;
@@ -164,7 +164,7 @@ public class RedNineLong extends OpMode {
                 setPathState(8);
                 break;
             case 8:
-                if (mStateTime.time() >= 3.5) {
+                if (mStateTime.time() >= 3) {
                     Intake.stop();
                     Shooter.StopSpin();
                     setPathState(9);
@@ -193,7 +193,7 @@ public class RedNineLong extends OpMode {
                 break;
             case 12:
                 if (mStateTime.time() >= 6.0) {
-                    Shooter.Stop();
+                    Shooter.ShooterIntakeStop();
                     Shooter.StopSpin();
                     setPathState(13);
                 }

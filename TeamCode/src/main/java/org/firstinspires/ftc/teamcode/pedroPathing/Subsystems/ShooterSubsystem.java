@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.seattlesolvers.solverslib.controller.PController;
 import com.seattlesolvers.solverslib.controller.PDController;
 import com.seattlesolvers.solverslib.controller.PIDController;
@@ -18,6 +19,7 @@ public class ShooterSubsystem {
 
     private RevTouchSensor magSensor;
     private DcMotor TurnTable;
+    private HardwareMap hardwareMap;
 
     private double targetVelocity = 0.0;
     public void setTargetVelocity(double velocity) {
@@ -26,6 +28,10 @@ public class ShooterSubsystem {
 
     public void update() {
     }
+
+
+    private static final double NOMINAL_VOLTAGE = 13.0;
+
 
     public ShooterSubsystem(HardwareMap hardwareMap) {
         ShooterIntake = hardwareMap.get(DcMotor.class, "ShooterIntake");
@@ -36,7 +42,7 @@ public class ShooterSubsystem {
 
         Shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        Shooter.setVelocityPIDFCoefficients(20,0,.5,1.2);
+        Shooter.setVelocityPIDFCoefficients(20,0,1.5,1.5);
 
 
     }
@@ -56,12 +62,12 @@ public class ShooterSubsystem {
 
     public void ShooterOnly() {
         Shooter.getZeroPowerBehavior();
-        Shooter.setVelocity(3000);
+        Shooter.setVelocity(2700);
     }
 
     public void PartialShooterOnly() {
         Shooter.getZeroPowerBehavior();
-        Shooter.setVelocity(2850);
+        Shooter.setVelocity(2500);
     }
 
     /*public void FullShootPID() {
@@ -74,7 +80,7 @@ public class ShooterSubsystem {
 
     public void FullShooterOnly() {
         Shooter.getZeroPowerBehavior();
-        Shooter.setVelocity(4800);
+        Shooter.setVelocity(3200);
     }
 
     /*public void MaxShootPID() {
@@ -91,7 +97,7 @@ public class ShooterSubsystem {
      */
     public void MaxShooterOnly() {
         Shooter.getZeroPowerBehavior();
-        Shooter.setVelocity(3900);
+        Shooter.setVelocity(3100);
     }
 
     public void ShooterOnlyFull() {
