@@ -42,7 +42,7 @@ public class ShooterSubsystem {
 
         Shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        Shooter.setVelocityPIDFCoefficients(20,0,1.5,1.5);
+        Shooter.setVelocityPIDFCoefficients(30,0,2.5,10);
 
 
     }
@@ -51,23 +51,23 @@ public class ShooterSubsystem {
         ShooterIntake.setPower(-1);
         Shooter.getZeroPowerBehavior();
         Shooter.setVelocity(3050);
-    }
-    public void AutoShootPID() {
-        ShooterIntake.setPower(-1);
+    }*/
+
+    public void AutoShooterOnly() {
         Shooter.getZeroPowerBehavior();
-        Shooter.setVelocity(3000);
+        Shooter.setVelocity(1900);
     }
 
-     */
+
 
     public void ShooterOnly() {
         Shooter.getZeroPowerBehavior();
-        Shooter.setVelocity(2700);
+        Shooter.setVelocity(2000);
     }
 
     public void PartialShooterOnly() {
         Shooter.getZeroPowerBehavior();
-        Shooter.setVelocity(2500);
+        Shooter.setVelocity(1800);
     }
 
     /*public void FullShootPID() {
@@ -80,7 +80,7 @@ public class ShooterSubsystem {
 
     public void FullShooterOnly() {
         Shooter.getZeroPowerBehavior();
-        Shooter.setVelocity(3200);
+        Shooter.setVelocity(6000);
     }
 
     /*public void MaxShootPID() {
@@ -97,7 +97,7 @@ public class ShooterSubsystem {
      */
     public void MaxShooterOnly() {
         Shooter.getZeroPowerBehavior();
-        Shooter.setVelocity(3100);
+        Shooter.setVelocity(4000);
     }
 
     public void ShooterOnlyFull() {
@@ -140,7 +140,7 @@ public class ShooterSubsystem {
             TurnTable.setPower(.4);
         }
         public void FasterSpinTable() {
-            TurnTable.setPower(.45);
+            TurnTable.setPower(.75);
         }
         public void FastSpinTable () {
             TurnTable.setPower(.6);

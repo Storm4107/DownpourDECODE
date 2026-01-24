@@ -58,7 +58,7 @@ public class RedShort extends OpMode {
             Path2 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(95.000, 95.000), new Pose(95.000, 85))
+                            new BezierLine(new Pose(95.000, 95.000), new Pose(95.000, 90))
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(43), Math.toRadians(0))
                     .build();
@@ -66,7 +66,7 @@ public class RedShort extends OpMode {
             Path3 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(95.000, 85), new Pose(120.000, 85))
+                            new BezierLine(new Pose(95.000, 90), new Pose(120.000, 90))
                     )
                     .setTangentHeadingInterpolation()
                     .build();
@@ -74,7 +74,7 @@ public class RedShort extends OpMode {
             Path4 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(120.000, 85), new Pose(95.000, 95.000))
+                            new BezierLine(new Pose(120.000, 90), new Pose(90.000, 90.000))
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(43))
                     .build();
@@ -82,7 +82,7 @@ public class RedShort extends OpMode {
             Path5 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(95.000, 95.000), new Pose(95.000, 59.400))
+                            new BezierLine(new Pose(90.000, 90.000), new Pose(95.000, 61))
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(43), Math.toRadians(0))
                     .build();
@@ -90,7 +90,7 @@ public class RedShort extends OpMode {
             Path6 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(95.000, 59.400), new Pose(120.000, 59.400))
+                            new BezierLine(new Pose(95.000, 61), new Pose(115.000, 61))
                     )
                     .setTangentHeadingInterpolation()
                     .build();
@@ -98,7 +98,7 @@ public class RedShort extends OpMode {
             Path7 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(120.000, 59.400), new Pose(95.000, 95.000))
+                            new BezierLine(new Pose(115.000, 61), new Pose(93.000, 93.000))
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(42))
                     .build();
@@ -106,7 +106,7 @@ public class RedShort extends OpMode {
             Path8 = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(95.000, 95.000), new Pose(115.600, 93.400))
+                            new BezierLine(new Pose(93.000, 93.000), new Pose(115.600, 93.400))
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(42), Math.toRadians(0))
                     .build();
@@ -248,7 +248,7 @@ public class RedShort extends OpMode {
                 setPathState(20);
                 break;
             case 20:
-                if (mStateTime.time() >= 6.0) {
+                if (mStateTime.time() >= 4.0) {
                     Shooter.Stop();
                     Shooter.StopSpin();
                     setPathState(21);
