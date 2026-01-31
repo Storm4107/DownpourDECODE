@@ -14,8 +14,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.pedroPathing.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.pedroPathing.Subsystems.ShooterSubsystem;
 
-@Autonomous(name = "RedShortTwelve")
-public class RedShortTwelve extends OpMode {
+@Autonomous(name = "RedShortRelease")
+public class RedShortRelease extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, opmodeTimer;

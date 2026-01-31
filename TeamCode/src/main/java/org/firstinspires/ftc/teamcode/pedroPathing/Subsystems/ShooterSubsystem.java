@@ -67,7 +67,7 @@ public class ShooterSubsystem {
 
     public void PartialShooterOnly() {
         Shooter.getZeroPowerBehavior();
-        Shooter.setVelocity(1800);
+        Shooter.setVelocity(1875);
     }
 
     /*public void FullShootPID() {
@@ -97,7 +97,7 @@ public class ShooterSubsystem {
      */
     public void MaxShooterOnly() {
         Shooter.getZeroPowerBehavior();
-        Shooter.setVelocity(4000);
+        Shooter.setVelocity(3500);
     }
 
     public void ShooterOnlyFull() {
@@ -140,7 +140,7 @@ public class ShooterSubsystem {
             TurnTable.setPower(.4);
         }
         public void FasterSpinTable() {
-            TurnTable.setPower(.75);
+            TurnTable.setPower(.675);
         }
         public void FastSpinTable () {
             TurnTable.setPower(.6);
