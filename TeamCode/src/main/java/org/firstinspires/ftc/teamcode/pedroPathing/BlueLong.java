@@ -101,14 +101,13 @@ public class BlueLong extends OpMode {
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(90))
                     .build();
-            /*Path7 = follower
+            Path7 = follower
                     .pathBuilder()
                     .addPath(
                     new BezierLine(new Pose(12.000, 15.000), new Pose(61.000, 15.000))
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(116))
                     .build();
-             */
         }
     }
 
@@ -130,7 +129,7 @@ public class BlueLong extends OpMode {
                 setPathState(2);
                 break;
             case 2:
-                if (mStateTime.time() >= 1.5) {
+                if (mStateTime.time() >= 2.5) {
                     setPathState(3);
                 }
                 break;
@@ -170,7 +169,7 @@ public class BlueLong extends OpMode {
                 setPathState(8);
                 break;
             case 8:
-                if (mStateTime.time() >= 3.5) {
+                if (mStateTime.time() >= 3) {
                     Intake.stop();
                     Shooter.StopSpin();
                     setPathState(9);
@@ -199,7 +198,7 @@ public class BlueLong extends OpMode {
                 break;
             case 12:
                 if (mStateTime.time() >= 6.0) {
-                    Shooter.Stop();
+                    Shooter.ShooterIntakeStop();
                     Shooter.StopSpin();
                     setPathState(13);
                 }
@@ -214,7 +213,7 @@ public class BlueLong extends OpMode {
                 }
             case 15:
                 Intake.In();
-                follower.followPath(PathChain.Path6,.4,true);
+                follower.followPath(PathChain.Path6,.6,true);
                 Shooter.FastSpinTable();
                 Intake.In();
                 mStateTime.reset();
@@ -223,23 +222,12 @@ public class BlueLong extends OpMode {
                 break;
             case 16:
                 if (mStateTime.time() >= 4) {
-                    Intake.stop();
                     Shooter.StopSpin();
                     setPathState(17);
                 }
                 break;
             case 17:
-                follower.followPath(PathChain.Path7,1,true);
-                setPathState(18);
-                break;
-            case 18:
-                if (!follower.isBusy()) {
-                    setPathState(19);
-                }
-                break;
-            /*case 17:
                 follower.followPath(PathChain.Path7);
-                Shooter.MaxShooterOnly();
                 Shooter.Home();
                 mStateTime.reset();
                 v_state++;
@@ -247,11 +235,12 @@ public class BlueLong extends OpMode {
                 break;
             case 18:
                 if (mStateTime.time() >= 2) {
+                    Intake.Reverse();
                     setPathState(19);
                 }
                 break;
             case 19:
-                Shooter.MaxShootPID();
+                Shooter.Rubber();
                 Shooter.FasterSpinTable();
                 telemetry.addData("Current Elapsed Time", pathTimer);
                 mStateTime.reset();
@@ -260,12 +249,12 @@ public class BlueLong extends OpMode {
                 break;
             case 20:
                 if (mStateTime.time() >= 6.0) {
+                    Intake.stop();
                     Shooter.Stop();
                     Shooter.StopSpin();
                     setPathState(21);
                 }
 
-             */
 
         }
 

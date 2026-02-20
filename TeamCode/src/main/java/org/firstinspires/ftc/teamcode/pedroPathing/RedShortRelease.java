@@ -77,7 +77,7 @@ public class RedShortRelease extends OpMode {
                     .addPath(
                             new BezierLine(new Pose(120.000, 85), new Pose(89.000, 89.000))
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(-15), Math.toRadians(43))
+                    .setLinearHeadingInterpolation(Math.toRadians(-15), Math.toRadians(41))
                     .build();
 
             Path5 = follower
@@ -85,7 +85,7 @@ public class RedShortRelease extends OpMode {
                     .addPath(
                             new BezierLine(new Pose(90.000, 90.000), new Pose(95.000, 61))
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(43), Math.toRadians(0))
+                    .setLinearHeadingInterpolation(Math.toRadians(41), Math.toRadians(0))
                     .build();
 
             Path6 = follower
@@ -108,7 +108,7 @@ public class RedShortRelease extends OpMode {
                     .addPath(
                             new BezierLine(new Pose(115.000, 61), new Pose(92.000, 92.000))
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(42))
+                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(41))
                     .build();
 
             Path9 = follower
@@ -116,7 +116,7 @@ public class RedShortRelease extends OpMode {
                     .addPath(
                             new BezierLine(new Pose(92.000, 92.000), new Pose(115.600, 93.400))
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(42), Math.toRadians(0))
+                    .setLinearHeadingInterpolation(Math.toRadians(41), Math.toRadians(0))
                     .build();
         }
     }
@@ -151,7 +151,7 @@ public class RedShortRelease extends OpMode {
                 break;
 
             case 4:
-                if (mStateTime.time() >= 5.0) {
+                if (mStateTime.time() >= 4.0) {
                     Shooter.ShooterIntakeStop();
                     Shooter.StopSpin();
                     setPathState(5);
@@ -185,11 +185,13 @@ public class RedShortRelease extends OpMode {
             case 9:
                 follower.followPath(PathChain.Path4);
                 Shooter.Home();
+                mStateTime.reset();
+                v_state++;
                 setPathState(10);
                 break;
 
             case 10:
-                if (!follower.isBusy()) {
+                if (mStateTime.time() >= 2) {
                     setPathState(11);
                 }
                 break;
@@ -243,7 +245,6 @@ public class RedShortRelease extends OpMode {
 
             case 18:
                 if (mStateTime.time() >= 2) {
-                    Intake.Reverse();
                     setPathState(19);
                 }
                 break;
@@ -255,7 +256,8 @@ public class RedShortRelease extends OpMode {
                 setPathState(20);
                 break;
             case 20:
-                if (mStateTime.time() >= 1.5) {
+                if (mStateTime.time() >= 2) {
+                    Intake.Reverse();
                     setPathState(21);
                 }
                 break;

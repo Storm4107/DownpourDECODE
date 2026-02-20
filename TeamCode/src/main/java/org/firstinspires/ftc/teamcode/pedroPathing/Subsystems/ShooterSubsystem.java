@@ -14,7 +14,7 @@ import com.seattlesolvers.solverslib.hardware.motors.Motor;
 
 public class ShooterSubsystem {
 
-    private DcMotor ShooterIntake;
+    private DcMotorEx ShooterIntake;
     private DcMotorEx Shooter;
 
     private RevTouchSensor magSensor;
@@ -34,7 +34,7 @@ public class ShooterSubsystem {
 
 
     public ShooterSubsystem(HardwareMap hardwareMap) {
-        ShooterIntake = hardwareMap.get(DcMotor.class, "ShooterIntake");
+        ShooterIntake = hardwareMap.get(DcMotorEx.class, "ShooterIntake");
         Shooter = hardwareMap.get(DcMotorEx.class, "Shooter");
         TurnTable = hardwareMap.get(DcMotor.class, "TurnTable");
 
@@ -43,6 +43,9 @@ public class ShooterSubsystem {
         Shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         Shooter.setVelocityPIDFCoefficients(30,0,2.5,10);
+
+        ShooterIntake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        ShooterIntake.setVelocityPIDFCoefficients(10,0,0.5,11);
 
 
     }
@@ -55,19 +58,19 @@ public class ShooterSubsystem {
 
     public void AutoShooterOnly() {
         Shooter.getZeroPowerBehavior();
-        Shooter.setVelocity(1900);
+        Shooter.setVelocity(1775);
     }
 
 
 
     public void ShooterOnly() {
         Shooter.getZeroPowerBehavior();
-        Shooter.setVelocity(2000);
+        Shooter.setVelocity(1900);
     }
 
     public void PartialShooterOnly() {
         Shooter.getZeroPowerBehavior();
-        Shooter.setVelocity(1875);
+        Shooter.setVelocity(1845);
     }
 
     /*public void FullShootPID() {
@@ -80,7 +83,7 @@ public class ShooterSubsystem {
 
     public void FullShooterOnly() {
         Shooter.getZeroPowerBehavior();
-        Shooter.setVelocity(6000);
+        Shooter.setVelocity(2350);
     }
 
     /*public void MaxShootPID() {
@@ -123,8 +126,7 @@ public class ShooterSubsystem {
         public void ShooterIntakeStop() {
         ShooterIntake.setPower(0);
         }
-        public void Rubber() {
-            ShooterIntake.setPower(-1);
+        public void Rubber() {ShooterIntake.setVelocity(-5000);
         }
 
         public void StopShooterPID () {
@@ -137,7 +139,7 @@ public class ShooterSubsystem {
         }
 
         public void SpinTable () {
-            TurnTable.setPower(.4);
+            TurnTable.setPower(.55);
         }
         public void FasterSpinTable() {
             TurnTable.setPower(.675);
