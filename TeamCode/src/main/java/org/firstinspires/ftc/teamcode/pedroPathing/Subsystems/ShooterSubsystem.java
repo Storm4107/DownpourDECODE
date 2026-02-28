@@ -100,7 +100,7 @@ public class ShooterSubsystem {
      */
     public void MaxShooterOnly() {
         Shooter.getZeroPowerBehavior();
-        Shooter.setVelocity(3500);
+        Shooter.setVelocity(3800);
     }
 
     public void ShooterOnlyFull() {

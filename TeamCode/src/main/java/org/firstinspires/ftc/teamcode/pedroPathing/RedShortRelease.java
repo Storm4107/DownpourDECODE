@@ -61,7 +61,7 @@ public class RedShortRelease extends OpMode {
                     .addPath(
                             new BezierLine(new Pose(93.000, 93.000), new Pose(93.000, 85))
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(43), Math.toRadians(-15))
+                    .setLinearHeadingInterpolation(Math.toRadians(43), Math.toRadians(0))
                     .build();
 
             Path3 = follower
@@ -77,7 +77,7 @@ public class RedShortRelease extends OpMode {
                     .addPath(
                             new BezierLine(new Pose(120.000, 85), new Pose(89.000, 89.000))
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(-15), Math.toRadians(41))
+                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(41))
                     .build();
 
             Path5 = follower
@@ -143,7 +143,7 @@ public class RedShortRelease extends OpMode {
                 break;
             case 3:
                 Shooter.Rubber();
-                Shooter.SpinTable();
+                Shooter.FastSpinTable();
                 telemetry.addData("Current Elapsed Time", pathTimer);
                 mStateTime.reset();
                 v_state++;
@@ -151,7 +151,7 @@ public class RedShortRelease extends OpMode {
                 break;
 
             case 4:
-                if (mStateTime.time() >= 4.0) {
+                if (mStateTime.time() >= 3.5) {
                     Shooter.ShooterIntakeStop();
                     Shooter.StopSpin();
                     setPathState(5);
@@ -197,16 +197,15 @@ public class RedShortRelease extends OpMode {
                 break;
             case 11:
                 Shooter.Rubber();
-                Shooter.SpinTable();
+                Shooter.FastSpinTable();
                 telemetry.addData("Current Elapsed Time", pathTimer);
                 mStateTime.reset();
                 v_state++;
                 setPathState(12);
                 break;
             case 12:
-                if (mStateTime.time() >= 5.0) {
+                if (mStateTime.time() >= 3.5) {
                     Shooter.ShooterIntakeStop();
-                    Intake.In();
                     Shooter.StopSpin();
                     setPathState(13);
                 }
@@ -232,6 +231,7 @@ public class RedShortRelease extends OpMode {
             case 16:
                 if (mStateTime.time() >= 2) {
                     Shooter.StopSpin();
+                    Intake.stop();
                     setPathState(17);
                 }
                 break;
@@ -250,6 +250,7 @@ public class RedShortRelease extends OpMode {
                 break;
             case 19:
                 follower.followPath(PathChain.Path8);
+                Intake.In();
                 Shooter.Home();
                 mStateTime.reset();
                 v_state++;
@@ -257,20 +258,20 @@ public class RedShortRelease extends OpMode {
                 break;
             case 20:
                 if (mStateTime.time() >= 2) {
-                    Intake.Reverse();
+                    Intake.stop();
                     setPathState(21);
                 }
                 break;
             case 21:
                 Shooter.Rubber();
-                Shooter.SpinTable();
+                Shooter.FastSpinTable();
                 telemetry.addData("Current Elapsed Time", pathTimer);
                 mStateTime.reset();
                 v_state++;
                 setPathState(22);
                 break;
             case 22:
-                if (mStateTime.time() >= 4.0) {
+                if (mStateTime.time() >= 3.5) {
                     Shooter.Stop();
                     Shooter.StopSpin();
                     setPathState(23);

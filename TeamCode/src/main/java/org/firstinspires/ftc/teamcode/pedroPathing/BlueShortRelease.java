@@ -14,8 +14,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.pedroPathing.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.pedroPathing.Subsystems.ShooterSubsystem;
 
-@Autonomous(name = "RedShort")
-public class RedShort extends OpMode {
+@Autonomous(name = "BlueShortRelease")
+public class BlueShortRelease extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, opmodeTimer;
@@ -45,73 +45,101 @@ public class RedShort extends OpMode {
         public PathChain Path6;
         public PathChain Path7;
         public PathChain Path8;
+        public PathChain Path9;
 
         public Paths(Follower follower) {
-            Path1 = follower
-                    .pathBuilder()
-                    .addPath(
-                            new BezierLine(new Pose(116.300, 131.800), new Pose(95.000, 95.000))
-                    )
-                    .setLinearHeadingInterpolation(Math.toRadians(36), Math.toRadians(43))
+            Path1 = follower.pathBuilder().addPath(
+                            new BezierLine(
+                                    new Pose(28.000, 131.800),
+
+                                    new Pose(48.200, 95.700)
+                            )
+                    ).setLinearHeadingInterpolation(Math.toRadians(145), Math.toRadians(132))
+
                     .build();
 
-            Path2 = follower
-                    .pathBuilder()
-                    .addPath(
-                            new BezierLine(new Pose(95.000, 95.000), new Pose(95.000, 85))
-                    )
-                    .setLinearHeadingInterpolation(Math.toRadians(43), Math.toRadians(0))
+            Path2 = follower.pathBuilder().addPath(
+                            new BezierLine(
+                                    new Pose(48.200, 95.700),
+
+                                    new Pose(52.000, 87.000)
+                            )
+                    ).setLinearHeadingInterpolation(Math.toRadians(132), Math.toRadians(180))
+
                     .build();
 
-            Path3 = follower
-                    .pathBuilder()
-                    .addPath(
-                            new BezierLine(new Pose(95.000, 85), new Pose(120.000, 90))
-                    )
-                    .setTangentHeadingInterpolation()
+            Path3 = follower.pathBuilder().addPath(
+                            new BezierLine(
+                                    new Pose(52.000, 87.000),
+
+                                    new Pose(24.000, 87.000)
+                            )
+                    ).setTangentHeadingInterpolation()
+
                     .build();
 
-            Path4 = follower
-                    .pathBuilder()
-                    .addPath(
-                            new BezierLine(new Pose(120.000, 90), new Pose(90.000, 90.000))
-                    )
-                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(43))
+            Path4 = follower.pathBuilder().addPath(
+                            new BezierLine(
+                                    new Pose(24.000, 87.000),
+
+                                    new Pose(48.200, 95.700)
+                            )
+                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(130))
+
                     .build();
 
-            Path5 = follower
-                    .pathBuilder()
-                    .addPath(
-                            new BezierLine(new Pose(90.000, 90.000), new Pose(95.000, 61))
-                    )
-                    .setLinearHeadingInterpolation(Math.toRadians(43), Math.toRadians(0))
+            Path5 = follower.pathBuilder().addPath(
+                            new BezierLine(
+                                    new Pose(48.200, 95.700),
+
+                                    new Pose(52.000, 62.000)
+                            )
+                    ).setLinearHeadingInterpolation(Math.toRadians(130), Math.toRadians(180))
+
                     .build();
 
-            Path6 = follower
-                    .pathBuilder()
-                    .addPath(
-                            new BezierLine(new Pose(95.000, 61), new Pose(115.000, 61))
-                    )
-                    .setTangentHeadingInterpolation()
+            Path6 = follower.pathBuilder().addPath(
+                            new BezierLine(
+                                    new Pose(52.000, 62.000),
+
+                                    new Pose(24.000, 62.000)
+                            )
+                    ).setTangentHeadingInterpolation()
+
                     .build();
 
-            Path7 = follower
-                    .pathBuilder()
-                    .addPath(
-                            new BezierLine(new Pose(115.000, 61), new Pose(93.000, 93.000))
-                    )
-                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(42))
+            Path7 = follower.pathBuilder().addPath(
+                            new BezierLine(
+                                    new Pose(24.000, 62.000),
+
+                                    new Pose(15.700, 69.000)
+                            )
+                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+
                     .build();
 
-            Path8 = follower
-                    .pathBuilder()
-                    .addPath(
-                            new BezierLine(new Pose(93.000, 93.000), new Pose(115.600, 93.400))
-                    )
-                    .setLinearHeadingInterpolation(Math.toRadians(42), Math.toRadians(0))
+            Path8 = follower.pathBuilder().addPath(
+                            new BezierLine(
+                                    new Pose(15.700, 69.000),
+
+                                    new Pose(48.200, 95.700)
+                            )
+                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(132))
+
+                    .build();
+
+            Path9 = follower.pathBuilder().addPath(
+                            new BezierLine(
+                                    new Pose(48.200, 95.700),
+
+                                    new Pose(27.000, 95.700)
+                            )
+                    ).setLinearHeadingInterpolation(Math.toRadians(132), Math.toRadians(180))
+
                     .build();
         }
     }
+
     ElapsedTime mStateTime = new ElapsedTime();
     int v_state = 0;
 
@@ -228,48 +256,56 @@ public class RedShort extends OpMode {
                 }
                 break;
             case 17:
-                if (mStateTime.time() >= 2) {
-                    setPathState(18);
-                }
-                break;
-            case 18:
                 follower.followPath(PathChain.Path7);
                 Shooter.Home();
                 mStateTime.reset();
                 v_state++;
-                setPathState(19);
+                setPathState(18);
                 break;
-            case 19:
+
+            case 18:
                 if (mStateTime.time() >= 2) {
-                    setPathState(20);
+                    setPathState(19);
                 }
                 break;
+            case 19:
+                follower.followPath(PathChain.Path8);
+                Shooter.Home();
+                mStateTime.reset();
+                v_state++;
+                setPathState(20);
+                break;
             case 20:
+                if (mStateTime.time() >= 2) {
+                    Intake.Reverse();
+                    setPathState(21);
+                }
+                break;
+            case 21:
                 Shooter.Rubber();
                 Shooter.SpinTable();
                 telemetry.addData("Current Elapsed Time", pathTimer);
                 mStateTime.reset();
                 v_state++;
-                setPathState(21);
+                setPathState(22);
                 break;
-            case 21:
+            case 22:
                 if (mStateTime.time() >= 4.0) {
                     Shooter.Stop();
                     Shooter.StopSpin();
-                    setPathState(22);
+                    setPathState(23);
                 }
                 break;
-            case 22:
-                follower.followPath(PathChain.Path8);
-                setPathState(23);
-                break;
             case 23:
+                follower.followPath(PathChain.Path9);
+                setPathState(24);
+                break;
+            case 24:
                 if (!follower.isBusy()) {
-                    setPathState(24);
+                    setPathState(25);
                 }
 
         }
-
 
 
         // These loop the movements of the robot, these must be called continuously in order to work

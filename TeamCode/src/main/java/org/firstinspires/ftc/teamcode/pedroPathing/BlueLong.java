@@ -51,7 +51,7 @@ public class BlueLong extends OpMode {
                     .addPath(
                             new BezierLine(new Pose(57.000, 9.000), new Pose(61.000, 15.000))
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(116))
+                    .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(113))
                     .build();
 
             Path2 = follower
@@ -59,7 +59,7 @@ public class BlueLong extends OpMode {
                     .addPath(
                             new BezierLine(new Pose(61.000, 15.000), new Pose(50.000, 35.000))
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(115), Math.toRadians(180))
+                    .setLinearHeadingInterpolation(Math.toRadians(113), Math.toRadians(180))
                     .build();
 
             Path3 = follower
@@ -106,7 +106,7 @@ public class BlueLong extends OpMode {
                     .addPath(
                     new BezierLine(new Pose(12.000, 15.000), new Pose(61.000, 15.000))
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(116))
+                    .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(116))
                     .build();
         }
     }
@@ -129,7 +129,7 @@ public class BlueLong extends OpMode {
                 setPathState(2);
                 break;
             case 2:
-                if (mStateTime.time() >= 2.5) {
+                if (mStateTime.time() >= 2) {
                     setPathState(3);
                 }
                 break;
@@ -169,8 +169,7 @@ public class BlueLong extends OpMode {
                 setPathState(8);
                 break;
             case 8:
-                if (mStateTime.time() >= 3) {
-                    Intake.stop();
+                if (mStateTime.time() >= 4) {
                     Shooter.StopSpin();
                     setPathState(9);
                 }
