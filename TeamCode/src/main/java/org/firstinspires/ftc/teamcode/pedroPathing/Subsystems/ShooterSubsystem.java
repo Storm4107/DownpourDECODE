@@ -60,7 +60,10 @@ public class ShooterSubsystem {
         Shooter.getZeroPowerBehavior();
         Shooter.setVelocity(1775);
     }
-
+    public void SecondAutoShooterOnly() {
+        Shooter.getZeroPowerBehavior();
+        Shooter.setVelocity(1800);
+    }
 
 
     public void ShooterOnly() {
